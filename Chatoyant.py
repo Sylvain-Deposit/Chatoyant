@@ -9,7 +9,7 @@ import numpy as np
 import colorsys
 from bokeh.palettes import all_palettes as bokeh_palettes
 
-from helpers import color_dict
+from Chatoyant_colors import color_dict
 
 
 class ColorMap:
