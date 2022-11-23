@@ -1,5 +1,5 @@
 # Chatoyant
-## Tiny library to create colormaps easily, 'lego-like'.
+### Tiny library to create colormaps easily, 'lego-like'.
 
 ![image](https://user-images.githubusercontent.com/60986961/203571588-1971e4a1-77db-403c-964d-89222460cfea.png)
 
