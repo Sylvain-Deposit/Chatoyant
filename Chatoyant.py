@@ -13,12 +13,18 @@ from Chatoyant_colors import color_dict
 
 
 class ColorMap:
-    def __init__(self, color_map=None, name=None):
+    def __init__(self, name=None, color_map=None):
 
         self.color_map = color_map
         self.name = name
 
     def __repr__(self):
+        
+        
+        if self.color_map is None:
+            raise ValueError (f"Empty ColorMap {self.name}")
+            return
+        
         gradient = np.linspace(0, 1, 255)
         gradient = np.vstack((gradient, gradient))
 
@@ -34,8 +40,12 @@ class ColorMap:
         fig.tight_layout(pad=0.8)
 
         return f"Chatoyant ColorMap {self.name}, length {len(self.color_map)}."
+    
+    def __eq__(self, cmap2):
+        return self.color_map == cmap2.color_map
 
     def __str__(self):
+        
         return self.__repr__()
 
     def __add__(self, cmap2):
@@ -52,6 +62,8 @@ class ColorMap:
             return ColorMap(color_map=self.color_map[i], name=self.name +'-Sliced')
 
     def __len__(self):
+        if not self.color_map:
+            return 0
         return len(self.color_map)
 
     @staticmethod
@@ -254,3 +266,6 @@ class ColorMap:
                 b -= 255
             noisy_map.append((r, g, b))
         return ColorMap(color_map=noisy_map, name=self.name + "-Noisy")
+    
+    def name(self):
+        return self.name
