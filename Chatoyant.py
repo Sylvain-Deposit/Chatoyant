@@ -38,6 +38,7 @@ class ColorMap:
         ax.set_yticks([]) 
         
         fig.tight_layout(pad=0.8)
+        plt.show()
 
         return f"Chatoyant ColorMap {self.name}, length {len(self.color_map)}."
     
@@ -269,3 +270,8 @@ class ColorMap:
     
     def name(self):
         return self.name
+
+if __name__ == '__main__':
+    cmap = ColorMap().from_matplotlib('inferno', n=100)
+
+    print(cmap)
