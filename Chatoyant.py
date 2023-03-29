@@ -102,12 +102,7 @@ class ColorMap:
                 f"Bokeh {name} palette is only available with lengths: {list(bokeh_palettes[name].keys())}"
             )
         hex_map = list(bokeh_palettes[name][n])
-        # cmap = []
-        # for x in hex_map:
-
-        #     a, b, c = self._hex_to_RGB(x)
-        #     cmap.append((a, b, c))
-        
+ 
         cmap = [(self._hex_to_RGB(x)) for x in hex_map]
         name = name if self.name == None else self.name
 
@@ -183,6 +178,7 @@ class ColorMap:
         return ColorMap(color_map=RGB_map, name=self.name + "-RGB")
 
     def loop(self, n=1):
+        # Method to loop colormaps n times.
         color_map = self.color_map
         if not isinstance(color_map, list):
             color_map = list(color_map)
@@ -193,6 +189,7 @@ class ColorMap:
         return ColorMap(color_map=color_map, name=name)
 
     def extend(self, n=10):
+        # Method to extend the colormap by n.
         # Detour by Numpy to use linspace
         colors = np.asarray(self.color_map)
         cmap = LinearSegmentedColormap.from_list("", colors / 255, 256)
@@ -204,26 +201,29 @@ class ColorMap:
 
         return ColorMap(color_map=color_map, name=name)
 
-    def map_to_index(self, i):
+    def map_to_index(self, idxs):
+        # Re-order the colormap according to the index of another array
 
-        i = self._normalize(i)
+        idxs = self._normalize(idxs)
 
-        bins = np.linspace(0, i.max(), num=len(self.color_map) + 1)
+        bins = np.linspace(0, idxs.max(), num=len(self.color_map) + 1)
         bins = bins[:-1]
 
-        indexes = np.digitize(i, bins) - 1
+        indexes = np.digitize(idxs, bins) - 1
 
         colors = [self.color_map[i] for i in indexes]
 
         return colors
 
     def set_name(self, name=None):
+        # Set the name of the ColorMap. Cosmetic only.
         if isinstance(name, str):
             return ColorMap(color_map=self.color_map, name=name)
         else:
             raise TypeError("Name must be a valid string.")
 
     def shift_hue(self, by=20):
+        # Wrapper to shift the hue of the colormap.
 
         return (
             ColorMap(color_map=self.color_map, name=self.name)
@@ -233,6 +233,7 @@ class ColorMap:
         )
 
     def shift(self, by=(0, 0, 0)):
+        # Shift the colormap values, with rotation to 255 value.
         shifted_map = []
         for r, g, b in self.color_map:
 
@@ -240,6 +241,7 @@ class ColorMap:
             g += by[1]
             b += by[2]
 
+            # Limiting to 255
             if r > 255:
                 r -= 255
             if g > 255:
@@ -250,7 +252,7 @@ class ColorMap:
         return ColorMap(color_map=shifted_map, name=self.name + "-Shifted")
 
     def add_noise(self, by=(0, 0, 0)):
-
+        # Adding noise by channel (RGB or HLS).
         noisy_map = []
 
         for r, g, b in self.color_map:
@@ -258,6 +260,8 @@ class ColorMap:
             r += np.random.uniform(0, by[0])
             g += np.random.uniform(0, by[1])
             b += np.random.uniform(0, by[2])
+
+            # Limiting to 255.
 
             if r > 255:
                 r -= 255
@@ -269,6 +273,7 @@ class ColorMap:
         return ColorMap(color_map=noisy_map, name=self.name + "-Noisy")
     
     def name(self):
+        # Get the name of the ColorMap.
         return self.name
 
 if __name__ == '__main__':
