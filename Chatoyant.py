@@ -93,6 +93,8 @@ class ColorMap:
         return (r - r.min()) / (r.max() - r.min())
 
     def from_bokeh(self, name="YlGn", n=9):
+        # Building a COlorMap from BOkeh colormaps.
+        # They are limited in sizes per names.
         if name not in bokeh_palettes.keys():
             raise ValueError(
                 f"Available Bokeh palettes are {list(bokeh_palettes.keys())}"
@@ -154,6 +156,7 @@ class ColorMap:
         return ColorMap(color_map=self.color_map[::-1], name=self.name + "-Inverted")
 
     def to_HLS(self):
+        # Transforms the ColorMap to HLS.
 
         HLS_map = []
         for r, g, b in self.color_map:
@@ -166,6 +169,7 @@ class ColorMap:
         return ColorMap(color_map=HLS_map, name=self.name + "-HLS")
 
     def to_RGB(self):
+        # Transforms the ColorMap to RGB.
 
         RGB_map = []
         for h, l, s in self.color_map:
