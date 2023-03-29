@@ -3,6 +3,7 @@
 @author: Sylvain
 """
 
+
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import numpy as np
@@ -13,17 +14,16 @@ from Chatoyant_colors import color_dict
 
 
 class ColorMap:
-    def __init__(self, name=None, color_map=None):
+    def __init__(self, name: str = None, color_map=None):
 
         self.color_map = color_map
         self.name = name
 
     def __repr__(self):
         
-        
         if self.color_map is None:
             raise ValueError (f"Empty ColorMap {self.name}")
-            return
+
         
         gradient = np.linspace(0, 1, 255)
         gradient = np.vstack((gradient, gradient))
@@ -33,7 +33,6 @@ class ColorMap:
 
         fig, ax = plt.subplots(nrows=1, figsize=(12, 1))
         ax.imshow(gradient, aspect="auto", cmap=new_cmap)
-        # ax.set_axis_off()
         ax.set_xticks([]) 
         ax.set_yticks([]) 
         
@@ -46,7 +45,6 @@ class ColorMap:
         return self.color_map == cmap2.color_map
 
     def __str__(self):
-        
         return self.__repr__()
 
     def __add__(self, cmap2):
@@ -57,6 +55,7 @@ class ColorMap:
         return cmap3
 
     def __getitem__(self, i):
+        # Slicing the ColorMap if needed.
         if isinstance(i, int):
             return ColorMap(color_map=self.color_map[i : i + 1], name=self.name +  f'[{i}]')
         elif isinstance(i, slice):
@@ -76,7 +75,6 @@ class ColorMap:
 
     @staticmethod
     def _hex_to_RGB(value):
-
         value = value.lstrip("#")
         lv = len(value)
         col = [int(value[i : i + lv // 3], 16) for i in range(0, lv, lv // 3)]
@@ -85,7 +83,6 @@ class ColorMap:
 
     @staticmethod
     def _RGB_to_hex(red, green, blue):
-
         return "#%02x%02x%02x" % (red, green, blue)
 
     @staticmethod
@@ -106,7 +103,7 @@ class ColorMap:
         hex_map = list(bokeh_palettes[name][n])
  
         cmap = [(self._hex_to_RGB(x)) for x in hex_map]
-        name = name if self.name == None else self.name
+        name = name if not self.name else self.name
 
         return ColorMap(color_map=cmap, name=name + "-" + str(n))
 
@@ -114,6 +111,7 @@ class ColorMap:
 
         try:
             plt_map = plt.cm.get_cmap(name, n).colors * 255
+
         # Many plt Colormaps do not have the .colors attribute. Don't ask why.
         except (ValueError, AttributeError):
             plt_map = plt.cm.get_cmap(name, n)
@@ -121,7 +119,7 @@ class ColorMap:
         # Removing alpha channel, converting to int
         plt_map = np.round(plt_map[:, 0:3]).astype(int)
         
-        name = name if self.name == None else self.name
+        name = name if not self.name else self.name
 
         return ColorMap(color_map=list(map(tuple, plt_map)), name=name)
 
