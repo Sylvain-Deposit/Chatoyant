@@ -149,7 +149,10 @@ class ColorMap:
 
     def to_tuple_list(self):
         return [tuple(x) for x in self.color_map]
-
+    
+    def to_float_list(self):
+        return self._RGBCMap_to_floatCMap(self.color_map)
+        
     def invert(self):
         return ColorMap(color_map=self.color_map[::-1], name=self.name + "-Inverted")
 
