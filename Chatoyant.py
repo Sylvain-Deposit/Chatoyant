@@ -110,21 +110,30 @@ class ColorMap:
 
     def from_matplotlib(self, name="inferno", n=10):
 
-        try:
-            plt_map = plt.cm.get_cmap(name, n).colors * 255
-                       
-
-        # Many plt Colormaps do not have the .colors attribute. Don't ask why.
-        except (ValueError, AttributeError):
+        # try:
+        intervals = np.linspace(0, 255, n, dtype=int)
+        cmap = mpl.colormaps[name]
+        
+        if isinstance(cmap, mpl.colors.ListedColormap):
+            # Listed colormaps are a list of fixed colors, indexed 0 to 255
+            plt_map = np.array(cmap.colors)[intervals] * 255
             
-            plt_map = plt.cm.get_cmap(name, n)
-            plt_map = plt_map(range(n)) * 255
+        elif isinstance(cmap, mpl.colors.LinearSegmentedColormap):
+            # Segmented Colormaps are interpolated, indexed from 0 to 1
+            plt_map = plt.get_cmap(name, n)(intervals / 255) * 255
+            
+        else:
+            raise ValueError(f'{name} Matplotlib colormap is not recognised')
+            
         # Removing alpha channel, converting to int
         plt_map = np.round(plt_map[:, 0:3]).astype(int)
         
-        name = name if not self.name else self.name
+        if not self.name:
+            self.name = name
+        
+        self.color_map = list(map(tuple, plt_map))
 
-        return ColorMap(color_map=list(map(tuple, plt_map)), name=name)
+        return self
 
     def from_list(self, color_list=["red", "black"]):
         colors = []
@@ -291,6 +300,6 @@ class ColorMap:
         return self.name
 
 if __name__ == '__main__':
-    cmap = ColorMap().from_matplotlib('viridis', n=10)
+    cmap = ColorMap().from_matplotlib('viridis', n=512)
 
     print(cmap)
