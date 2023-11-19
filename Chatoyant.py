@@ -6,6 +6,7 @@
 
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+import matplotlib as mpl
 import numpy as np
 import colorsys
 from bokeh.palettes import all_palettes as bokeh_palettes
@@ -111,9 +112,11 @@ class ColorMap:
 
         try:
             plt_map = plt.cm.get_cmap(name, n).colors * 255
+                       
 
         # Many plt Colormaps do not have the .colors attribute. Don't ask why.
         except (ValueError, AttributeError):
+            
             plt_map = plt.cm.get_cmap(name, n)
             plt_map = plt_map(range(n)) * 255
         # Removing alpha channel, converting to int
@@ -192,6 +195,12 @@ class ColorMap:
         name = self.name + f"-Looped_{n}"
 
         return ColorMap(color_map=color_map, name=name)
+    
+    def roll(self, n=1):
+        name = self.name + f"-rolled_{n}"
+        color_map = self.color_map
+        rolled = color_map[-n:] + color_map[:-n]
+        return ColorMap(color_map=rolled, name=name)
 
     def extend(self, n=10):
         # Method to extend the colormap by n.
@@ -282,6 +291,6 @@ class ColorMap:
         return self.name
 
 if __name__ == '__main__':
-    cmap = ColorMap().from_matplotlib('inferno', n=100)
+    cmap = ColorMap().from_matplotlib('viridis', n=10)
 
     print(cmap)
