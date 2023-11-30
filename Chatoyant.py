@@ -209,6 +209,7 @@ class ColorMap:
         name = self.name + f"-rolled_{n}"
         color_map = self.color_map
         rolled = color_map[-n:] + color_map[:-n]
+        
         return ColorMap(color_map=rolled, name=name)
 
     def extend(self, n=10):
@@ -236,7 +237,7 @@ class ColorMap:
 
         colors = [self.color_map[i] for i in indexes]
 
-        return colors
+        return ColorMap(color_map=colors, name=self.name+'-indexed')
 
     def set_name(self, name=None):
         # Set the name of the ColorMap. Cosmetic only.
@@ -300,6 +301,6 @@ class ColorMap:
         return self.name
 
 if __name__ == '__main__':
-    cmap = ColorMap().from_matplotlib('viridis', n=512)
+    cmap = ColorMap().from_matplotlib('viridis', n=12)
 
     print(cmap)
