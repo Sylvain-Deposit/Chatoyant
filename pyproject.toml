@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Chatoyant_Syla"
+version = "0.0.1"
+authors = [
+  { name="Sylvain Rama", email="rama.sylvain@gmail.com" },
+]
+description = "Small lib to create colormaps, lego-like."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Sylvain-Deposit/Chatoyant"
+Issues = "https://github.com/Sylvain-Deposit/Chatoyant/issues"
