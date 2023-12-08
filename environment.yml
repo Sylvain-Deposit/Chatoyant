@@ -1,6 +1,5 @@
 name: Chatoyant
 channels:
-  - defaults
   - conda-forge
 dependencies:
   - asttokens=2.0.5
