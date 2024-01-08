@@ -8,7 +8,7 @@ This tiny library allows to create colormaps for any artistic project or generic
 
 ![image](https://user-images.githubusercontent.com/60986961/203570576-f895e51c-9440-4d9d-991c-eb7de69ee2ec.png)
 
-See a [Notebook](https://github.com/Sylvain-Deposit/Chatoyant/blob/main/Chatoyant%20Example.ipynb) for more examples.
+See a [Notebook](https://github.com/Sylvain-Deposit/Chatoyant/blob/main/src/Chatoyant%20Example.ipynb) for more examples.
 It was originally developped to generate colors for [PILes](https://github.com/Sylvain-Deposit/PILes).
 
 ![PILes](https://github.com/Sylvain-Deposit/PILes/raw/main/docs/title_1.jpg)
